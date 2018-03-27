@@ -1,11 +1,13 @@
 package com.example.demo.Service;
 
 import com.baidu.aip.ocr.AipOcr;
+import com.example.demo.Model.MedicalJson;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
-import java.util.HashMap;
+import java.util.*;
 
 @Service
 public class OcrService {
@@ -38,13 +40,40 @@ public class OcrService {
         //请求百度识别
         JSONObject res = client.custom(url,medicalTemplate, new HashMap<String, String>());
         //System.out.println(res.toString(2));
+        Gson gson = new Gson();
+        MedicalJson medicalJson = gson.fromJson(res.toString(2), MedicalJson.class);
+        StringBuilder sb = new StringBuilder("通过对化验单的分析，得出以下建议：1。胆固醇超标，建议节食。<br>");
+        Map<String, String> map = new HashMap<>();
+
+        Iterator<MedicalJson.DataBean.RetBean> it  = medicalJson.getData().getRet().iterator();
+        while (it.hasNext()) {
+
+            //act + 天门冬氨基转移酶
+            for(int i = 0 ;it.hasNext() && i<2;i++){
+                MedicalJson.DataBean.RetBean data = it.next();
+
+                sb.append(data.getWord()+" ");
+            }
+
+            //act + 天门冬氨基转移酶 :31.8
+
+            if (it.hasNext()) {
+                MedicalJson.DataBean.RetBean data = it.next();
+
+                sb.append(":"+data.getWord()+"<br>");
+            }
+
+
+       }
+
+
 
 
 
         //分析结果
 
 
-        String result = "通过对化验单的分析，得出以下建议：1。胆固醇超标，建议节食。";
+        String result =sb.toString() ;
         //返回识别结果
 
 
