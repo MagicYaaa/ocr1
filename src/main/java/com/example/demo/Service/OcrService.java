@@ -37,12 +37,14 @@ public class OcrService {
             URL in = OcrService.class.getResource("/imgs/test.jpg");
             url = in.getPath();
         }
+
         //请求百度识别
         JSONObject res = client.custom(url,medicalTemplate, new HashMap<String, String>());
         //System.out.println(res.toString(2));
+
         Gson gson = new Gson();
         MedicalJson medicalJson = gson.fromJson(res.toString(2), MedicalJson.class);
-        StringBuilder sb = new StringBuilder("通过对化验单的分析，得出以下建议：1。胆固醇超标，建议节食。<br>");
+        StringBuilder sb = new StringBuilder("----此处为分析模块测试内容：<br>通过对化验单的分析，得出以下建议：1。胆固醇超标，建议节食。<br>");
         Map<String, String> map = new HashMap<>();
 
         Iterator<MedicalJson.DataBean.RetBean> it  = medicalJson.getData().getRet().iterator();
@@ -65,18 +67,10 @@ public class OcrService {
 
 
        }
-
-
-
-
-
         //分析结果
-
-
         String result =sb.toString() ;
+
         //返回识别结果
-
-
         return result;
     }
 
