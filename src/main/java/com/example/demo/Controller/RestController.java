@@ -23,6 +23,8 @@ public class RestController {
 
         return result;
     }
+
+
     @RequestMapping("/ocr2")
     @ResponseBody
     public String ocr2(@RequestParam(name = "url", required = false) String url) {
@@ -39,9 +41,6 @@ public class RestController {
             @RequestParam(name = "url2", required = false) String url2
 
             ) {
-
-
-
         return "我接受到你的请求了："+temlasd+" template"+template;
     }
 }
