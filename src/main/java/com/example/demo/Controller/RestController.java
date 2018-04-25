@@ -18,9 +18,7 @@ public class RestController {
     @RequestMapping("/ocr")
     @ResponseBody
     public String hello(@RequestParam(name = "url", required = false) String url) {
-
         String result = service.customeOcr(url);
-
         return result;
     }
 
@@ -28,8 +26,6 @@ public class RestController {
     @RequestMapping("/ocr2")
     @ResponseBody
     public String ocr2(@RequestParam(name = "url", required = false) String url) {
-
-
         return "nihao";
     }
 
